@@ -1,5 +1,3 @@
-package seguridad20222_servidor;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
