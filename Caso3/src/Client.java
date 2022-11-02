@@ -55,14 +55,13 @@ public class Client {
 
             //4.
             //get F(K+,m) 
-            //Esta vaina me desencripta algo que no es (deberia funcionar(hay otro test en el que manda error a proposito))
+            //Esto me desencripta algo que no es (deberia funcionar(hay otro test en el que manda error a proposito))
             //Sospecho que es algo que tiene que ver con el byte[]
             String signature = dc.readLine();
             System.out.println("\nReceived signature: " + signature);
             Boolean check;
             try {
-                byte[] b = signature.getBytes(StandardCharsets.UTF_8); 
-                String msg = f.adec(b, publicaServidor);
+                String msg = f.adec(str2byte(signature), publicaServidor);
                 check = f.checkSignature(publicaServidor, str2byte(signature), msg);
                 System.out.println(check);
                 if(check)
