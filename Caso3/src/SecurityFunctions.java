@@ -45,9 +45,9 @@ public class SecurityFunctions {
         return cipherText;
     }
     
-    public String adec(byte[] cifrado, PrivateKey privada) throws Exception {
+    public String adec(byte[] cifrado, PublicKey publicaServidor) throws Exception {
         Cipher decriptCipher = Cipher.getInstance(algoritmo_asimetrico);
-        decriptCipher.init(Cipher.DECRYPT_MODE, privada);
+        decriptCipher.init(Cipher.DECRYPT_MODE, publicaServidor);
         String decipheredMessage = new String(decriptCipher.doFinal(cifrado), StandardCharsets.UTF_8);
         System.out.println(decipheredMessage);
         return decipheredMessage;

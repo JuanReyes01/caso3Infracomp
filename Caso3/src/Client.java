@@ -26,11 +26,8 @@ public class Client {
             //Get public key (is supposed to be public so I think there is no trouble in just copying it)
             PublicKey publicaServidor = f.read_kplus("datos_asim_srv.pub","Server public key: ");
 
-            //Reading request (we should make this automatic for the final tests)
-            System.out.println("Reading request: ");
-            String request = scanner.nextLine();
             //Send request to server
-            ac.println(request);
+            ac.println("SECURE INIT");
             
             //Get diffie-Hellman data
 
@@ -42,17 +39,37 @@ public class Client {
             System.out.println("p: " + p);
             System.out.println("commonVal: " + commonVal);
             
+            
+
             //Create our diffie-helman Y value 
             SecureRandom r = new SecureRandom();
 			int x = Math.abs(r.nextInt());
     		Long longx = Long.valueOf(x);
     		BigInteger bix = BigInteger.valueOf(longx);
             BigInteger myVal = G2X(g, bix, p);
+            
+            //Get dh
+            BigInteger dh = G2X(commonVal, bix, p);
+
+            //get singnature 
+            //Esta vaina me desencripta algo que no es (deberia funcionar)
+            String signature = dc.readLine();
+            System.out.println("\nReceived signature: " + signature);
+            Boolean check;
+            try {
+                String msg = f.adec(str2byte(signature), publicaServidor);
+                check = f.checkSignature(publicaServidor, str2byte(signature), msg);
+                System.out.println(check);
+                if(check)
+                    ac.println("OK");
+                else
+                    ac.println("ERROR");
+            } catch (Exception e) {
+                ac.println("ERROR");
+            }
+            
             //Send value
             ac.println(myVal.toString());
-
-            //Get key
-            BigInteger key = G2X(commonVal, bix, p);
             
 
 
@@ -76,8 +93,30 @@ public class Client {
             System.out.println(e);
         }
     }
+
     private BigInteger G2X(BigInteger base, BigInteger exponente, BigInteger modulo) {
 		return base.modPow(exponente,modulo);
+	}
+
+    public byte[] str2byte( String ss)
+	{	
+		// Encapsulamiento con hexadecimales
+		byte[] ret = new byte[ss.length()/2];
+		for (int i = 0 ; i < ret.length ; i++) {
+			ret[i] = (byte) Integer.parseInt(ss.substring(i*2,(i+1)*2), 16);
+		}
+		return ret;
+	}
+	
+	public String byte2str( byte[] b )
+	{	
+		// Encapsulamiento con hexadecimales
+		String ret = "";
+		for (int i = 0 ; i < b.length ; i++) {
+			String g = Integer.toHexString(((char)b[i])&0x00ff);
+			ret += (g.length()==1?"0":"") + g;
+		}
+		return ret;
 	}
 
 }
