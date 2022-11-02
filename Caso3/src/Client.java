@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.Scanner;
@@ -26,11 +27,12 @@ public class Client {
             //Get public key (is supposed to be public so I think there is no trouble in just copying it)
             PublicKey publicaServidor = f.read_kplus("datos_asim_srv.pub","Server public key: ");
 
+            //1.
             //Send request to server
             ac.println("SECURE INIT");
             
+            //3.
             //Get diffie-Hellman data
-
             BigInteger g = new BigInteger(dc.readLine());
             BigInteger p = new BigInteger(dc.readLine());
             BigInteger commonVal = new BigInteger(dc.readLine());
@@ -51,13 +53,16 @@ public class Client {
             //Get dh
             BigInteger dh = G2X(commonVal, bix, p);
 
-            //get singnature 
-            //Esta vaina me desencripta algo que no es (deberia funcionar)
+            //4.
+            //get F(K+,m) 
+            //Esta vaina me desencripta algo que no es (deberia funcionar(hay otro test en el que manda error a proposito))
+            //Sospecho que es algo que tiene que ver con el byte[]
             String signature = dc.readLine();
             System.out.println("\nReceived signature: " + signature);
             Boolean check;
             try {
-                String msg = f.adec(str2byte(signature), publicaServidor);
+                byte[] b = signature.getBytes(StandardCharsets.UTF_8); 
+                String msg = f.adec(b, publicaServidor);
                 check = f.checkSignature(publicaServidor, str2byte(signature), msg);
                 System.out.println(check);
                 if(check)
