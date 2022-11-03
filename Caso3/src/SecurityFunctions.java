@@ -49,7 +49,6 @@ public class SecurityFunctions {
         Cipher decriptCipher = Cipher.getInstance(algoritmo_asimetrico);
         decriptCipher.init(Cipher.DECRYPT_MODE, publicaServidor);
         String decipheredMessage = new String(decriptCipher.doFinal(cifrado), StandardCharsets.UTF_8);
-        System.out.println(decipheredMessage);
         return decipheredMessage;
     }
     
