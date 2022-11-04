@@ -59,19 +59,17 @@ public class Client {
             //Sospecho que es algo que tiene que ver con el byte[]
             String gPGxMsgSigned = dc.readLine();
             System.out.println("\nReceived signature: " + gPGxMsgSigned);
-            Boolean check;
             try {
-                check = f.checkSignature(
+                boolean check = f.checkSignature(
                     publicaServidor,
                     str2byte(gPGxMsgSigned),
                     // expected message
                     g + "," + p + "," + commonVal
                 );
-                if(check)
-                    ac.println("OK");
-                else
-                    ac.println("ERROR");
+                ac.println(check ? "OK" : "ERROR");
             } catch (Exception e) {
+                // TODO should we be sending this when the signature check throws an exception?
+                //      or should we only do it when the signature check actually returns false?
                 ac.println("ERROR");
             }
             
@@ -97,7 +95,7 @@ public class Client {
             Client c = new Client(socket);
             socket.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
