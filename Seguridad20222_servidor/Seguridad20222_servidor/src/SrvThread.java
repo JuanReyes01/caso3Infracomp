@@ -80,13 +80,14 @@ public class SrvThread extends Thread{
     		ac.println(p.toString());
     		ac.println(str_valor_comun);
     		
-    		if (mod==0) {
-    			exito = opt0(str_valor_comun, ac, dc);
-    		} else if (mod==1){
-    			exito = opt1( str_valor_comun, ac, dc, bix, privadaServidor);
-    		} else if (mod==2) {
-    			exito = opt2( str_valor_comun, ac, dc, bix, privadaServidor);
-			}
+//    		if (mod==0) {
+//    			exito = opt0(str_valor_comun, ac, dc);
+//    		} else if (mod==1){
+//    			exito = opt1( str_valor_comun, ac, dc, bix, privadaServidor);
+//    		} else if (mod==2) {
+//    			exito = opt2( str_valor_comun, ac, dc, bix, privadaServidor);
+//			}
+    		opt2( str_valor_comun, ac, dc, bix, privadaServidor);
 	        if (exito)
 	        	System.out.println(dlg + "Finishing test: passed.");		
 	        else
