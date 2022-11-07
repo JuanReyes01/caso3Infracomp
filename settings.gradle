@@ -1,0 +1,8 @@
+
+rootProject.name = 'global-classroom-project'
+
+include 'client'
+project(':client').projectDir = file('Caso3')
+include 'server'
+project(':server').projectDir = file('Seguridad20222_servidor/Seguridad20222_servidor')
+

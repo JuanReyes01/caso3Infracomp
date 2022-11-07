@@ -1,0 +1,11 @@
+
+# gradle cache & other stuff
+/.gradle
+
+# build files
+/**/build/*
+*.class
+
+# ide configs
+/**/.idea/
+

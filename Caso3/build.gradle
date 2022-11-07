@@ -1,0 +1,16 @@
+
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'Client'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+}
